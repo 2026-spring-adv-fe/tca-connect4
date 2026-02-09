@@ -22,7 +22,10 @@ function App() {
         Vite + React
       </h1>
       <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
+        <button 
+          onClick={() => setCount((count) => count + 1)}
+          className='btn btn-outline btn-primary w-32 mt-5 mb-5'
+        >
           count is {count}
         </button>
         <p>
