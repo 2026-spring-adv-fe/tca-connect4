@@ -6,8 +6,7 @@ import {
 } from 'react-router';
 import { Home } from './Home';
 import { Setup } from './Setup';
-
-const Play = () => <h1>Play</h1>
+import { Play } from './Play';
 
 const App = () => {
 
