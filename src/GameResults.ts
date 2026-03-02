@@ -18,6 +18,13 @@ export type GeneralFacts = {
     longestGame: string;
 };
 
+export type LeaderboardEntry = {
+    wins: number;
+    losses: number;
+    avg: string;
+    name: string;
+};
+
 //
 // Exported functions...
 //
@@ -63,6 +70,27 @@ export const getGeneralFacts = (games: GameResult[]): GeneralFacts => {
         ),
     };
 };
+
+export const getLeaderboard = (
+    games: GameResult[]
+): LeaderboardEntry[] => getPreviousPlayers(games)
+    .map(
+        x => ({
+            ...getLeaderboardEntry(
+                games,
+                x,
+            )
+        })
+    )
+    .sort(
+        (a, b) => a.avg == b.avg
+            ? a.wins == 0 && b.wins == 0
+                ? (a.wins + a.losses) - (b.wins + b.losses)
+                : (b.wins + b.losses) - (a.wins + a.losses)
+            : Number.parseFloat(b.avg) - Number.parseFloat(a.avg)
+    )
+;
+
 //
 // Helper functions...
 //
@@ -77,3 +105,47 @@ const formatLastPlayed = durationFormatter<string>(
         ],
     }
 );
+
+const getPreviousPlayers = (
+    games: GameResult[]
+): string[] => games 
+    .flatMap(
+        x => x.players
+    )
+    .filter(
+        (x, i, a) => i == a.findIndex(
+            y => y == x
+        )
+    )
+    .sort(
+        (a, b) => a.localeCompare(b)
+    )
+;
+
+const getLeaderboardEntry = (
+    games: GameResult[],
+    player: string,
+): LeaderboardEntry => {
+
+    const countOfWins = games.filter(
+        x => x.winner == player
+    ).length;
+
+    const totalGames = games.filter(
+        x => x.players.some(
+            y => y == player
+        )
+    ).length;
+
+    const avg = totalGames > 0
+        ? countOfWins / totalGames
+        : 0
+    ;
+
+    return {
+        wins: countOfWins,
+        losses: totalGames - countOfWins,
+        avg: `${avg.toFixed(3)}`,
+        name: player
+    };
+};
