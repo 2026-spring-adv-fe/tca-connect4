@@ -9,9 +9,6 @@ export const Home: React.FC<HomeProps> = ({
     generalFacts
 }) => {
 
-    console.log(
-        generalFacts
-    );
     // We'll write code here...
     const nav = useNavigate();
 
@@ -21,7 +18,7 @@ export const Home: React.FC<HomeProps> = ({
             <h1>
                 Home
             </h1>
-            <button 
+            <button
                 className="btn btn-primary btn-outline"
                 onClick={
                     () => nav('/setup')
@@ -29,6 +26,33 @@ export const Home: React.FC<HomeProps> = ({
             >
                 Setup a Game
             </button>
+
+
+            <div className="card bg-base-100 w-full shadow-lg my-5">
+                <div className="card-body p-2">
+                    <h2 className="card-title">General Facts</h2>
+                    <table className="table table-zebra">
+                        <tbody>
+                            <tr>
+                                <td>Last Played</td>
+                                <th>{generalFacts.lastPlayed}</th>
+                            </tr>
+                            <tr>
+                                <td>Total Games</td>
+                                <th>{generalFacts.totalGames}</th>
+                            </tr>
+                            <tr>
+                                <td>Shortest Game</td>
+                                <th>{generalFacts.shortestGame}</th>
+                            </tr>
+                            <tr>
+                                <td>Longest Game</td>
+                                <th>{generalFacts.longestGame}</th>
+                            </tr>
+                        </tbody>
+                    </table>
+                </div>
+            </div>
         </>
     );
 };
