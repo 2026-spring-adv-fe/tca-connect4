@@ -39,7 +39,7 @@ const App = () => {
   // React hooks...
   //
   const [gameResults, setGameResults] = useState(dummyGameResults);
-  // const [gameResults, setGameResults] = useState([]);
+  // const [gameResults, setGameResults] = useState<GameResult[]>([]);
 
   //
   // Calculate state and other funcs...

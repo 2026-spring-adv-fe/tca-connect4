@@ -1,9 +1,10 @@
 import { useNavigate } from "react-router";
 import type { GeneralFacts, LeaderboardEntry } from "./GameResults";
+import { } from "human-readable";
 
 type HomeProps = {
     generalFacts: GeneralFacts;
-    leaderboard: LeaderboardEntry[];
+    leaderboard: LeaderboardEntry[],
 };
 
 export const Home: React.FC<HomeProps> = ({
@@ -58,29 +59,47 @@ export const Home: React.FC<HomeProps> = ({
 
             <div className="card bg-base-100 w-full shadow-lg my-5">
                 <div className="card-body p-2">
-                    <h2 className="card-title">Leaderboard</h2>
-                    <table className="table table-zebra">
-                        <thead>
-                            <tr>
-                                <th>Name</th>
-                                <th>Wins</th>
-                                <th>Losses</th>
-                                <th>Win Rate</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            {leaderboard.map(
-                                entry => (
-                                    <tr key={entry.name}>
-                                        <td>{entry.name}</td>
-                                        <th>{entry.wins}</th>
-                                        <th>{entry.losses}</th>
-                                        <th>{entry.avg}</th>
-                                    </tr>
-                                )
-                            )}
-                        </tbody>
-                    </table>
+                    <h2 className="card-title">Player Leaderboard</h2>
+                    {
+                        leaderboard.length === 0
+                            ? <p>N/A</p>
+                            : (
+                                <table className="table table-zebra">
+                                    <thead>
+                                        <tr>
+                                            <th>W</th>
+                                            <th>L</th>
+                                            <th>AVG</th>
+                                            <th>PLAYER</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        {
+                                            leaderboard.map(
+                                                x => (
+                                                    <tr
+                                                        key={x.name}
+                                                    >
+                                                        <td>
+                                                            {x.wins}
+                                                        </td>
+                                                        <td>
+                                                            {x.losses}
+                                                        </td>
+                                                        <td>
+                                                            {x.avg}
+                                                        </td>
+                                                        <td>
+                                                            {x.name}
+                                                        </td>
+                                                    </tr>
+                                                )
+                                            )
+                                        }
+                                    </tbody>
+                                </table>
+                            )
+                        }
                 </div>
             </div>
         </>

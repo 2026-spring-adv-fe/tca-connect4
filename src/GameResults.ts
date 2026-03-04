@@ -106,22 +106,6 @@ const formatLastPlayed = durationFormatter<string>(
     }
 );
 
-const getPreviousPlayers = (
-    games: GameResult[]
-): string[] => games 
-    .flatMap(
-        x => x.players
-    )
-    .filter(
-        (x, i, a) => i == a.findIndex(
-            y => y == x
-        )
-    )
-    .sort(
-        (a, b) => a.localeCompare(b)
-    )
-;
-
 const getLeaderboardEntry = (
     games: GameResult[],
     player: string,
@@ -149,3 +133,19 @@ const getLeaderboardEntry = (
         name: player
     };
 };
+
+const getPreviousPlayers = (
+    games: GameResult[]
+): string[] => games 
+    .flatMap(
+        x => x.players
+    )
+    .filter(
+        (x, i, a) => i == a.findIndex(
+            y => y == x
+        )
+    )
+    .sort(
+        (a, b) => a.localeCompare(b)
+    )
+;
