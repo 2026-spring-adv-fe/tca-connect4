@@ -43,6 +43,8 @@ const App = () => {
 
   const [title, setTitle] = useState(APP_TITLE);
 
+  const [theme, setTheme] = useState("light");
+
   //
   // Calculate state and other funcs...
   //
@@ -57,11 +59,14 @@ const App = () => {
   // Return JSX...
   //
   return (
-    <div>
+    <div
+      className='min-h-screen'
+      data-theme={ theme }
+    >
       <div className="navbar bg-neutral text-neutral-content overflow-x-hidden flex flex-row"
       >
         <p
-          className="text-xl font-bold"
+          className="text-xl font-bold text-nowrap"
         >
           {title}
         </p>
@@ -69,7 +74,16 @@ const App = () => {
           className="swap swap-rotate ml-auto"
         >
           {/* this hidden checkbox controls the state */}
-          <input type="checkbox" />
+          <input 
+            type="checkbox" 
+            onClick={
+              () => setTheme(
+                theme === "light"
+                ? "dark"
+                : "light"
+              )
+            }
+          />
 
           {/* sun icon */}
           <svg
