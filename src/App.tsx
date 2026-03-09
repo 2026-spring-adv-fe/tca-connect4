@@ -75,6 +75,7 @@ const App = () => {
             path='/'
             element={
               <Home
+                setTitle={setTitle}
                 generalFacts={
                   getGeneralFacts(gameResults)
                 }
@@ -87,13 +88,16 @@ const App = () => {
           <Route
             path='/setup'
             element={
-              <Setup />
+              <Setup 
+                setTitle={setTitle}
+              />
             }
           />
           <Route
             path='/play'
             element={
               <Play
+                setTitle={setTitle}
                 addNewGameResult={
                   addNewGameResult
                 }

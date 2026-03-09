@@ -1,9 +1,16 @@
 import { useNavigate } from "react-router";
 
-export const Setup = () => {
+type SetupProps = {
+    setTitle: (t: string) => void;
+};
+export const Setup: React.FC<SetupProps> = ({ 
+    setTitle,
+}) => {
 
+    setTitle("Setup");
     // We'll write code here...
     const nav = useNavigate();
+
 
     // Then return JSX...
     return (
