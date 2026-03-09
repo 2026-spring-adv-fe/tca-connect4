@@ -1,5 +1,5 @@
 import './App.css'
-import { 
+import {
   HashRouter,
   Routes,
   Route,
@@ -11,26 +11,26 @@ import { getGeneralFacts, getLeaderboard, type GameResult } from './GameResults'
 import { useState } from 'react';
 
 const dummyGameResults: GameResult[] = [
-    {
-        winner: "Harry",
-        players: [
-            "Harry",
-            "Hermione",
-            "Ron",
-        ],
-        start: "2026-02-01T18:53:59.078Z",
-        end: "2026-02-01T19:27:59.078Z",
-    },
-    {
-        winner: "Hermione",
-        players: [
-            "Harry",
-            "Hermione",
-            "Ron",
-        ],
-        start: "2026-01-15T22:07:59.078Z",
-        end: "2026-01-15T23:01:59.078Z",
-    },  
+  {
+    winner: "Harry",
+    players: [
+      "Harry",
+      "Hermione",
+      "Ron",
+    ],
+    start: "2026-02-01T18:53:59.078Z",
+    end: "2026-02-01T19:27:59.078Z",
+  },
+  {
+    winner: "Hermione",
+    players: [
+      "Harry",
+      "Hermione",
+      "Ron",
+    ],
+    start: "2026-01-15T22:07:59.078Z",
+    end: "2026-01-15T23:01:59.078Z",
+  },
 ];
 
 const App = () => {
@@ -56,12 +56,22 @@ const App = () => {
   //
   return (
     <div>
+
+
+      <div className="navbar bg-neutral text-neutral-content"
+      >
+        <p
+          className="text-xl font-bold"
+        >
+          Connect 4 Companion App
+        </p>
+      </div>
       <HashRouter>
         <Routes>
-          <Route 
+          <Route
             path='/'
             element={
-              <Home 
+              <Home
                 generalFacts={
                   getGeneralFacts(gameResults)
                 }
@@ -71,16 +81,16 @@ const App = () => {
               />
             }
           />
-          <Route 
+          <Route
             path='/setup'
             element={
               <Setup />
             }
           />
-          <Route 
+          <Route
             path='/play'
             element={
-              <Play 
+              <Play
                 addNewGameResult={
                   addNewGameResult
                 }
