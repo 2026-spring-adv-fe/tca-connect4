@@ -2,6 +2,7 @@ import { useNavigate } from "react-router";
 import type { GeneralFacts, LeaderboardEntry } from "./GameResults";
 import { } from "human-readable";
 
+export const APP_TITLE = "Connect 4 Companion App";
 type HomeProps = {
     generalFacts: GeneralFacts;
     leaderboard: LeaderboardEntry[],

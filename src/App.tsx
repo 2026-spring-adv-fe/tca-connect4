@@ -4,7 +4,7 @@ import {
   Routes,
   Route,
 } from 'react-router';
-import { Home } from './Home';
+import { APP_TITLE, Home } from './Home';
 import { Setup } from './Setup';
 import { Play } from './Play';
 import { getGeneralFacts, getLeaderboard, type GameResult } from './GameResults';
@@ -41,6 +41,8 @@ const App = () => {
   const [gameResults, setGameResults] = useState(dummyGameResults);
   // const [gameResults, setGameResults] = useState<GameResult[]>([]);
 
+  const [title, setTitle] = useState(APP_TITLE);
+
   //
   // Calculate state and other funcs...
   //
@@ -61,7 +63,7 @@ const App = () => {
         <p
           className="text-xl font-bold"
         >
-          Connect 4 Companion App
+          {title}
         </p>
       </div>
       <div 
