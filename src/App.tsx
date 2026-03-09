@@ -56,8 +56,6 @@ const App = () => {
   //
   return (
     <div>
-
-
       <div className="navbar bg-neutral text-neutral-content"
       >
         <p
@@ -66,6 +64,9 @@ const App = () => {
           Connect 4 Companion App
         </p>
       </div>
+      <div 
+        className="p-3"
+      >
       <HashRouter>
         <Routes>
           <Route
@@ -99,6 +100,7 @@ const App = () => {
           />
         </Routes>
       </HashRouter>
+      </div>
     </div>
   )
 }
