@@ -1,8 +1,10 @@
 import { useNavigate } from "react-router";
 import type { GeneralFacts, LeaderboardEntry } from "./GameResults";
 import { } from "human-readable";
+import { useEffect } from "react";
 
 export const APP_TITLE = "Connect 4 Companion App";
+
 type HomeProps = {
     generalFacts: GeneralFacts;
     leaderboard: LeaderboardEntry[],
@@ -15,7 +17,10 @@ export const Home: React.FC<HomeProps> = ({
     setTitle,
 }) => {
 
-    setTitle(APP_TITLE);
+    useEffect(
+        () => setTitle(APP_TITLE),
+        [],
+    );
 
     // We'll write code here...
     const nav = useNavigate();
