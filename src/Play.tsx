@@ -20,8 +20,6 @@ export const Play: React.FC<PlayProps> = ({
     const nav = useNavigate();
     const [startTimestamp] = useState(new Date().toISOString());
 
-    setTitle("Play");
-
     // Then return JSX...
     return (
         <>

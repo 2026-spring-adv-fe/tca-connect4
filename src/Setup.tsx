@@ -13,7 +13,6 @@ export const Setup: React.FC<SetupProps> = ({
             [],
         );
 
-    setTitle("Setup");
     // We'll write code here...
     const nav = useNavigate();
 
