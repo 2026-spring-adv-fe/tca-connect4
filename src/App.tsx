@@ -11,6 +11,8 @@ import { getGeneralFacts, getLeaderboard, getPreviousPlayers, type GameResult } 
 import { useEffect, useState } from 'react';
 import localforage from 'localforage';
 
+const DEFAULT_THEME = "light";
+
 const dummyGameResults: GameResult[] = [
   {
     winner: "Harry",
@@ -101,7 +103,7 @@ const App = () => {
               async () => {
                 const result = await localforage.setItem<string>(
                   'theme',
-                  theme === "light"
+                  theme === DEFAULT_THEME
                     ? "dark"
                     : "light",
                 );
