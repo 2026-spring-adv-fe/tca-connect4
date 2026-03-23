@@ -1,16 +1,26 @@
 import { useNavigate } from "react-router";
 import type { GeneralFacts, LeaderboardEntry } from "./GameResults";
 import { } from "human-readable";
+import { useEffect } from "react";
+
+export const APP_TITLE = "Connect 4 Companion App";
 
 type HomeProps = {
     generalFacts: GeneralFacts;
     leaderboard: LeaderboardEntry[],
+    setTitle: (t: string) => void;
 };
 
 export const Home: React.FC<HomeProps> = ({
     generalFacts,
     leaderboard,
+    setTitle,
 }) => {
+
+    useEffect(
+        () => setTitle(APP_TITLE),
+        [],
+    );
 
     // We'll write code here...
     const nav = useNavigate();
@@ -18,11 +28,8 @@ export const Home: React.FC<HomeProps> = ({
     // Then return JSX...
     return (
         <>
-            <h1>
-                Home
-            </h1>
             <button
-                className="btn btn-primary btn-outline"
+                className="btn btn-soft btn-lg w-full lg:w-64"
                 onClick={
                     () => nav('/setup')
                 }
@@ -31,9 +38,11 @@ export const Home: React.FC<HomeProps> = ({
             </button>
 
 
-            <div className="card bg-base-100 w-full shadow-lg my-5">
+            <div className="card bg-base-100 w-full shadow-lg my-5 overflow-x-scroll">
                 <div className="card-body p-2">
-                    <h2 className="card-title">General Facts</h2>
+                    <h2 
+                        className="card-title text-nowrap"
+                    >General Facts</h2>
                     <table className="table table-zebra">
                         <tbody>
                             <tr>
@@ -57,9 +66,13 @@ export const Home: React.FC<HomeProps> = ({
                 </div>
             </div>
 
-            <div className="card bg-base-100 w-full shadow-lg my-5">
+            <div className="card bg-base-100 w-full shadow-lg my-5 overflow-x-scroll">
                 <div className="card-body p-2">
-                    <h2 className="card-title">Player Leaderboard</h2>
+                    <h2 
+                        className="card-title text-nowrap"
+                    >
+                        Player Leaderboard
+                    </h2>
                     {
                         leaderboard.length === 0
                             ? <p>N/A</p>

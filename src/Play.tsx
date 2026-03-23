@@ -1,13 +1,20 @@
 import { useNavigate } from "react-router";
 import type { GameResult } from "./GameResults";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 type PlayProps = {
     addNewGameResult: (g: GameResult) => void;
+    setTitle: (t: string) => void;
 }
 export const Play: React.FC<PlayProps> = ({
-    addNewGameResult
+    addNewGameResult,
+    setTitle
 }) => {
+
+    useEffect(
+            () => setTitle("Play"),
+            [],
+        );
 
     // We'll write code here...
     const nav = useNavigate();
@@ -16,11 +23,9 @@ export const Play: React.FC<PlayProps> = ({
     // Then return JSX...
     return (
         <>
-            <h1>
-                Play
-            </h1>
+
             <button 
-                className="btn btn-primary btn-outline"
+                className="btn btn-soft btn-lg w-full lg:w-64"
                 onClick={
                     () => {
                         addNewGameResult({
