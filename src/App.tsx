@@ -48,6 +48,8 @@ const App = () => {
 
   const [theme, setTheme] = useState("light");
 
+  const [currentPlayers, setCurrentPlayers] = useState<string[]>([]);
+
   useEffect(
     () => {
     const loadTheme = async () => {
@@ -163,6 +165,7 @@ const App = () => {
                   previousPlayers={
                     getPreviousPlayers(gameResults)
                   }
+                  setCurrentPlayers={setCurrentPlayers}
                 />
               }
             />
@@ -174,6 +177,7 @@ const App = () => {
                   addNewGameResult={
                     addNewGameResult
                   }
+                  players={currentPlayers}
                 />
               }
             />
