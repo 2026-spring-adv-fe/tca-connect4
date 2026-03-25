@@ -6,7 +6,7 @@ type SetupProps = {
     previousPlayers: string[];
     setCurrentPlayers: (players: string[]) => void;
 };
-export const Setup: React.FC<SetupProps> = ({ 
+export const Setup: React.FC<SetupProps> = ({
     setTitle,
     previousPlayers,
     setCurrentPlayers,
@@ -22,9 +22,9 @@ export const Setup: React.FC<SetupProps> = ({
     );
 
     useEffect(
-            () => setTitle("Setup"),
-            [],
-        );
+        () => setTitle("Setup"),
+        [],
+    );
 
     // We'll write code here...
     const nav = useNavigate();
@@ -33,7 +33,7 @@ export const Setup: React.FC<SetupProps> = ({
     // Then return JSX...
     return (
         <>
-            <button 
+            <button
                 className="btn btn-soft btn-lg w-full lg:w-64"
                 onClick={
                     () => {
@@ -52,6 +52,19 @@ export const Setup: React.FC<SetupProps> = ({
             >
                 Start the Game
             </button>
+            <div 
+                className="join mt-4 w-full"
+            >
+                <input 
+                    className="input join-item" 
+                    placeholder="New Player Name" 
+                />
+                <button 
+                    className="btn join-item rounded-r-full"
+                >
+                    Add
+                </button>
+            </div>
             <div className="mt-4">
                 {
                     availablePlayers.map(
@@ -60,8 +73,8 @@ export const Setup: React.FC<SetupProps> = ({
                                 key={x.name}
                                 className="block mt-2"
                             >
-                                <input 
-                                    type="checkbox" 
+                                <input
+                                    type="checkbox"
                                     className="checkbox mr-2"
                                     checked={x.checked}
                                     onChange={
@@ -76,7 +89,7 @@ export const Setup: React.FC<SetupProps> = ({
                                                 })
                                             )
                                         )
-                                    } 
+                                    }
                                 />
                                 {x.name}
                             </label>
