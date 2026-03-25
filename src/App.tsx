@@ -48,7 +48,8 @@ const App = () => {
 
   const [theme, setTheme] = useState("light");
 
-  const [currentPlayers, setCurrentPlayers] = useState<string[]>([]);
+  // const [currentPlayers, setCurrentPlayers] = useState<string[]>([]);
+  const currentPlayersStateTuple = useState<string[]>([]);
 
   useEffect(
     () => {
@@ -165,7 +166,7 @@ const App = () => {
                   previousPlayers={
                     getPreviousPlayers(gameResults)
                   }
-                  setCurrentPlayers={setCurrentPlayers}
+                  setCurrentPlayers={currentPlayersStateTuple[1]}
                 />
               }
             />
@@ -177,7 +178,7 @@ const App = () => {
                   addNewGameResult={
                     addNewGameResult
                   }
-                  players={currentPlayers}
+                  players={currentPlayersStateTuple[0]}
                 />
               }
             />
