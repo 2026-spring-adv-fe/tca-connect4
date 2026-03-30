@@ -22,9 +22,47 @@ export const Play: React.FC<PlayProps> = ({
     const nav = useNavigate();
     const [startTimestamp] = useState(new Date().toISOString());
 
+    const [turnNumber, setTurnNumber] = useState(1);
+
     // Then return JSX...
     return (
         <>
+            <p 
+                className="text-lg font-bold inline"
+            >
+                {
+                    `Turn #${turnNumber}`
+                }
+
+            </p>
+            <button 
+                className={`btn btn-outline btn-sm mx-2`}
+                disabled={turnNumber === 1}
+                // onClick={() => setTurnNumber(
+                //     turnNumber > 1 
+                //         ? turnNumber - 1
+                //         : turnNumber
+                //     // Math.max(
+                //     //     turnNumber - 1,
+                //     //     1,
+                //     // )
+                // )}
+                onClick={
+                    () => {
+                        if (turnNumber > 0) {
+                            setTurnNumber(turnNumber - 1);
+                        }
+                    }
+                }
+            >
+                -
+            </button>
+            <button 
+                className="btn btn-outline btn-sm mx-2"
+                onClick={() => setTurnNumber(turnNumber + 1)}
+            >
+                +
+            </button>
             {
                 players.map(
                     x => (
@@ -38,6 +76,7 @@ export const Play: React.FC<PlayProps> = ({
                                         players: players,
                                         start: startTimestamp,
                                         end: new Date().toISOString(),
+                                        turnCount: turnNumber,
                                     });
                                     nav(-2);
                                 }
