@@ -9,6 +9,8 @@ export type GameResult = {
 
     start: string;
     end: string;
+
+    turnCount: number;
 };
 
 export type GeneralFacts = {
