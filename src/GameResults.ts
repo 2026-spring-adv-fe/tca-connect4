@@ -10,7 +10,10 @@ export type GameResult = {
     start: string;
     end: string;
 
-    turnCount: number;
+    // turnCount: number;
+    //keep timestamps each time the turn is chaged
+    //for example: ["2024-06-01T12:00:00Z", "2024-06-01T12:05:00Z", ...]
+    turnEndTimestamps: string[];
 };
 
 export type GeneralFacts = {
@@ -18,6 +21,8 @@ export type GeneralFacts = {
     totalGames: number;
     shortestGame: string;
     longestGame: string;
+    shortestTurn: string;
+    longestTurn: string;
     avgTurnsPerGame: string;
 };
 
@@ -39,6 +44,8 @@ export const getGeneralFacts = (games: GameResult[]): GeneralFacts => {
             totalGames: 0,
             shortestGame: "N/A",
             longestGame: "N/A",
+            shortestTurn: "N/A",
+            longestTurn: "N/A",
             avgTurnsPerGame: "N/A"
         };
     }
@@ -58,26 +65,45 @@ export const getGeneralFacts = (games: GameResult[]): GeneralFacts => {
     );
 
     const totalTurns = games.reduce(
-        (acc, x) => acc + x.turnCount,
+        (acc, x) => acc + (x.turnEndTimestamps?.length || 0),
         0,
     );
-    // console.log(
-    //     gamesLastPlayedAgoInMilliseconds
-    // );
+
+    const [shortestTurnMs, longestTurnMs] = getLongestAndShortestTurns(games);
 
     return {
         lastPlayed: `${formatLastPlayed(
             mostRecentlyPlayedInMilliseconds
         )} ago`,
         totalGames: games.length,
-        shortestGame: formatGameDuration(
+        shortestGame: formatDuration(
             Math.min(...gameDurationsInMilliseconds) 
         ),
-        longestGame: formatGameDuration(
+        longestGame: formatDuration(
             Math.max(...gameDurationsInMilliseconds) 
         ),
+        shortestTurn: formatDuration(shortestTurnMs),
+        longestTurn: formatDuration(longestTurnMs),
         avgTurnsPerGame: (totalTurns / games.length).toFixed(2),
     };
+};
+
+export const getLongestAndShortestTurns = (
+    games: GameResult[]
+): [shortestDuration: number, longestDuration: number] => {
+    
+    const allTurnDurations = games.flatMap(game => {
+        const timestamps = [game.start, ...(game.turnEndTimestamps || [])];
+        return timestamps.slice(0, -1).map((ts, i) =>
+            Date.parse(timestamps[i + 1]) - Date.parse(ts)
+        );
+    });
+
+    if (allTurnDurations.length === 0) {
+        return [0, 0];
+    }
+
+    return [Math.min(...allTurnDurations), Math.max(...allTurnDurations)];
 };
 
 export const getLeaderboard = (
@@ -119,7 +145,7 @@ export const getPreviousPlayers = (
 //
 // Helper functions...
 //
-const formatGameDuration = durationFormatter<string>();
+const formatDuration = durationFormatter<string>();
 
 const formatLastPlayed = durationFormatter<string>(
     {
@@ -158,4 +184,3 @@ const getLeaderboardEntry = (
         name: player
     };
 };
-
