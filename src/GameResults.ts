@@ -10,9 +10,7 @@ export type GameResult = {
     start: string;
     end: string;
 
-    // Keep timestamps each time the turn is changed...
-    // For example: ["20260401T13:12:22:234", "20260401T13:15:22:234"]
-    turnEndTimestamps: string[];
+    turnCount: number;
 };
 
 export type GeneralFacts = {
@@ -21,8 +19,6 @@ export type GeneralFacts = {
     shortestGame: string;
     longestGame: string;
     avgTurnsPerGame: string;
-    shortestTurn: string;
-    longestTurn: string;
 };
 
 export type LeaderboardEntry = {
@@ -43,9 +39,7 @@ export const getGeneralFacts = (games: GameResult[]): GeneralFacts => {
             totalGames: 0,
             shortestGame: "N/A",
             longestGame: "N/A",
-            avgTurnsPerGame: "N/A",
-            shortestTurn: "N/A",
-            longestTurn: "N/A",
+            avgTurnsPerGame: "N/A"
         };
     }
 
@@ -64,7 +58,7 @@ export const getGeneralFacts = (games: GameResult[]): GeneralFacts => {
     );
 
     const totalTurns = games.reduce(
-        (acc, x) => acc + x.turnEndTimestamps.length,
+        (acc, x) => acc + x.turnCount,
         0,
     );
     // console.log(
@@ -76,14 +70,13 @@ export const getGeneralFacts = (games: GameResult[]): GeneralFacts => {
             mostRecentlyPlayedInMilliseconds
         )} ago`,
         totalGames: games.length,
-        shortestGame: formatDuration(
+        shortestGame: formatGameDuration(
             Math.min(...gameDurationsInMilliseconds) 
         ),
-        longestGame: formatDuration(
+        longestGame: formatGameDuration(
             Math.max(...gameDurationsInMilliseconds) 
         ),
         avgTurnsPerGame: (totalTurns / games.length).toFixed(2),
-        ...getTurnDurations(games),
     };
 };
 
@@ -126,31 +119,7 @@ export const getPreviousPlayers = (
 //
 // Helper functions...
 //
-const formatDuration = durationFormatter<string>();
-
-const getTurnDurations = (games: GameResult[]): Pick<GeneralFacts, "shortestTurn" | "longestTurn"> => {
-    const allTurnDurations = games.flatMap(game => {
-        if (game.turnEndTimestamps.length === 0) {
-            return [];
-        }
-
-        return [
-            Date.parse(game.turnEndTimestamps[0]) - Date.parse(game.start),
-            ...game.turnEndTimestamps.slice(1).map((timestamp, index) =>
-                Date.parse(timestamp) - Date.parse(game.turnEndTimestamps[index])
-            ),
-        ];
-    });
-
-    if (allTurnDurations.length === 0) {
-        return { shortestTurn: "N/A", longestTurn: "N/A" };
-    }
-
-    return {
-        shortestTurn: formatDuration(Math.min(...allTurnDurations)),
-        longestTurn: formatDuration(Math.max(...allTurnDurations)),
-    };
-};
+const formatGameDuration = durationFormatter<string>();
 
 const formatLastPlayed = durationFormatter<string>(
     {
@@ -189,5 +158,4 @@ const getLeaderboardEntry = (
         name: player
     };
 };
-
 
