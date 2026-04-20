@@ -182,7 +182,7 @@ const App = () => {
         </label>
       </div>
       <div
-        className="text-xl font-bold text-nowrap"
+        className="text-xl font-bold"
       >
 
 

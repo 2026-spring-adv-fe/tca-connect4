@@ -53,7 +53,7 @@ export const Setup: React.FC<SetupProps> = ({
     return (
         <>
             <button
-                className="btn btn-soft btn-lg w-full lg:w-64"
+                className="btn btn-soft btn-lg block w-full lg:w-64"
                 onClick={
                     () => {
                         setCurrentPlayers(
@@ -80,7 +80,7 @@ export const Setup: React.FC<SetupProps> = ({
                 }
             </button>
             <div
-                className="join mt-4 w-full lg:w-64"
+                className="join mt-4 block w-full lg:w-64"
             >
                 <input
                     type="text"
