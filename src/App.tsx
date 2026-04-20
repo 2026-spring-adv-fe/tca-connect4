@@ -53,6 +53,8 @@ const App = () => {
 
   const emailDialog = useRef<HTMLDialogElement>(null);
 
+  const [emailInDialog, setEmailInDialog] = useState("foo@bar.com");
+
   useEffect(
     () => {
       const loadTheme = async () => {
@@ -210,12 +212,31 @@ const App = () => {
           className="modal modal-bottom sm:modal-middle"
         >
           <div className="modal-box">
-            <h3 className="font-bold text-lg">Hello!</h3>
-            <p className="py-4">Press ESC key or click the button below to close</p>
+            <h3 className="font-bold text-lg">Email address for loading and saving game results...</h3>
+            <input type="text"
+              placeholder='Enter email address'
+              className='input input-bordered w-full mt-3 text-lg'
+              value={emailInDialog}
+              onChange={
+                (e) => setEmailInDialog(
+                  e.target.value
+                )
+              }
+            />
             <div className="modal-action">
               <form method="dialog">
                 {/* if there is a button in form, it will close the modal */}
-                <button className="btn">Close</button>
+                <button 
+                  className="btn"
+                  onClick={
+                    async () => await localforage.setItem(
+                      "email", 
+                      emailInDialog
+                    )
+                  }
+                >
+                  Save
+                </button>
               </form>
             </div>
           </div>
