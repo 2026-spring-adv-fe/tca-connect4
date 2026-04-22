@@ -10,6 +10,10 @@ import { Play } from './Play';
 import { getGeneralFacts, getLeaderboard, getPreviousPlayers, type GameResult } from './GameResults';
 import { useEffect, useRef, useState } from 'react';
 import localforage from 'localforage';
+import {
+  saveGameToCloud,
+  loadGamesFromCloud,
+} from "./tca-cloud-api";
 
 const DEFAULT_THEME = "light";
 
@@ -55,6 +59,8 @@ const App = () => {
 
   const [emailInDialog, setEmailInDialog] = useState("foo@bar.com");
 
+  const [emailForCloudApi, setEmailForCloudApi] = useState("");
+
   useEffect(
     () => {
       const loadTheme = async () => {
@@ -84,6 +90,7 @@ const App = () => {
 
         if (!ignore) {
           setEmailInDialog(result);
+          setEmailForCloudApi(result);
         }
       }
 
@@ -100,12 +107,16 @@ const App = () => {
   //
   // Calculate state and other funcs...
   //
-  const addNewGameResult = (gameResult: GameResult) => setGameResults(
+  const addNewGameResult = (gameResult: GameResult) => {
+
+    // Optimisitically update local state...
+    setGameResults(
     [
       ...gameResults,
       gameResult,
     ]
   );
+}
 
   //
   // Return JSX...
@@ -250,14 +261,18 @@ const App = () => {
                 <button 
                   className="btn"
                   onClick={
-                    async () => await localforage.setItem(
+                    async () => { 
+                      const savedEmail = await localforage.setItem(
                       "email", 
                       emailInDialog
-                    )
+                    );
+
+                      setEmailForCloudApi(savedEmail);
                   }
-                >
-                  Save
-                </button>
+                }
+              >
+                Save
+              </button>
               </form>
             </div>
           </div>
