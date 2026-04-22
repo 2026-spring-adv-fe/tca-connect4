@@ -10,6 +10,10 @@ import { Play } from './Play';
 import { getGeneralFacts, getLeaderboard, getPreviousPlayers, type GameResult } from './GameResults';
 import { useEffect, useRef, useState } from 'react';
 import localforage from 'localforage';
+import {
+  saveGameToCloud,
+  loadGamesFromCloud,
+} from "./tca-cloud-api";
 
 const DEFAULT_THEME = "light";
 
@@ -55,6 +59,8 @@ const App = () => {
 
   const [emailInDialog, setEmailInDialog] = useState("foo@bar.com");
 
+  const [emailForCloudApi, setEmailForCloudApi] = useState("");
+
   useEffect(
     () => {
       const loadTheme = async () => {
@@ -84,6 +90,7 @@ const App = () => {
 
         if (!ignore) {
           setEmailInDialog(result);
+          setEmailForCloudApi(result);
         }
       }
 
@@ -97,15 +104,60 @@ const App = () => {
     [],
   );
 
+    useEffect(
+    () => {
+      const loadGames = async () => {
+
+        const games = await loadGamesFromCloud(
+          emailForCloudApi,
+          "tca-connect4-26s"
+        );
+
+        if (!ignore) {
+          setGameResults(games);
+        }
+      }
+
+      let ignore = false;
+
+      if (emailForCloudApi.length > 0) {
+        loadGames();
+      }
+
+      return () => {
+        ignore = true;
+      }
+    },
+    [
+      emailForCloudApi
+    ],
+  );
+
   //
   // Calculate state and other funcs...
   //
-  const addNewGameResult = (gameResult: GameResult) => setGameResults(
+  const addNewGameResult = async (gameResult: GameResult) => {
+    // First, save the game result to the cloud...
+    if (emailForCloudApi.length > 0) {
+      await saveGameToCloud(
+        emailForCloudApi,
+        "tca-connect4-26s",
+        gameResult.end,
+        gameResult
+      );
+    }
+    //
+    //
+    // Second, optimistically update local state...
+    //
+    // Assume it was correctly saved to the cloud above 
+    setGameResults(
     [
       ...gameResults,
       gameResult,
     ]
   );
+}
 
   //
   // Return JSX...
@@ -250,14 +302,20 @@ const App = () => {
                 <button 
                   className="btn"
                   onClick={
-                    async () => await localforage.setItem(
+                    async () => { 
+                      const savedEmail = await localforage.setItem(
                       "email", 
                       emailInDialog
-                    )
+                    );
+
+                      if (savedEmail.length > 0) {
+                      setEmailForCloudApi(savedEmail);
                   }
-                >
-                  Save
-                </button>
+                }
+              }
+              >
+                Save
+              </button>
               </form>
             </div>
           </div>
