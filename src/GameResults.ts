@@ -33,7 +33,7 @@ export type LeaderboardEntry = {
 //
 export const getGeneralFacts = (games: GameResult[]): GeneralFacts => {
 
-    if (games.length === 0) {
+    if (!games || games.length === 0) {
         return {
             lastPlayed: "N/A",
             totalGames: 0,

@@ -104,12 +104,53 @@ const App = () => {
     [],
   );
 
+    useEffect(
+    () => {
+      const loadGames = async () => {
+
+        const games = await loadGamesFromCloud(
+          emailForCloudApi,
+          "tca-connect4-26s"
+        );
+
+        if (!ignore) {
+          setGameResults(games);
+        }
+      }
+
+      let ignore = false;
+
+      if (emailForCloudApi.length > 0) {
+        loadGames();
+      }
+
+      return () => {
+        ignore = true;
+      }
+    },
+    [
+      emailForCloudApi
+    ],
+  );
+
   //
   // Calculate state and other funcs...
   //
-  const addNewGameResult = (gameResult: GameResult) => {
-
-    // Optimisitically update local state...
+  const addNewGameResult = async (gameResult: GameResult) => {
+    // First, save the game result to the cloud...
+    if (emailForCloudApi.length > 0) {
+      await saveGameToCloud(
+        emailForCloudApi,
+        "tca-connect4-26s",
+        gameResult.end,
+        gameResult
+      );
+    }
+    //
+    //
+    // Second, optimistically update local state...
+    //
+    // Assume it was correctly saved to the cloud above 
     setGameResults(
     [
       ...gameResults,
@@ -267,9 +308,11 @@ const App = () => {
                       emailInDialog
                     );
 
+                      if (savedEmail.length > 0) {
                       setEmailForCloudApi(savedEmail);
                   }
                 }
+              }
               >
                 Save
               </button>
