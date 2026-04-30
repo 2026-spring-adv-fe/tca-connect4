@@ -170,12 +170,12 @@ const App = () => {
       <div className="navbar bg-neutral text-neutral-content overflow-x-hidden flex flex-row "
       >
         <p
-          className="text-xl font-bold text-nowrap"
+          className="text-xl font-bold text-nowrap flex-1"
         >
           {title}
         </p>
         <div
-          className="ml-auto flex flex-row"
+          className="ml-auto flex flex-row mr-3"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
