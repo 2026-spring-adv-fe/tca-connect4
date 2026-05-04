@@ -1,0 +1,1 @@
+if('serviceWorker' in navigator) {window.addEventListener('load', () => {navigator.serviceWorker.register('/tca-connect4/sw.js', { scope: '/tca-connect4/' })})}
