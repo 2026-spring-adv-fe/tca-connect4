@@ -164,18 +164,18 @@ const App = () => {
   //
   return (
     <div
-      className='min-h-screen'
+      className='min-h-screen app-shell'
       data-theme={theme}
     >
       <div className="navbar bg-neutral text-neutral-content overflow-x-hidden flex flex-row "
       >
         <p
-          className="text-xl font-bold text-nowrap"
+          className="text-xl font-bold text-nowrap flex-1"
         >
           {title}
         </p>
         <div
-          className="ml-auto flex flex-row"
+          className="ml-auto flex flex-row mr-3"
         >
           <svg
             xmlns="http://www.w3.org/2000/svg"
@@ -302,6 +302,13 @@ const App = () => {
             <div className="modal-action">
               <form method="dialog">
                 {/* if there is a button in form, it will close the modal */}
+                <button
+                  className="btn btn-ghost mr-2"
+                  type="button"
+                  onClick={() => emailDialog.current?.close()}
+                >
+                  Cancel
+                </button>
                 <button 
                   className="btn"
                   onClick={
