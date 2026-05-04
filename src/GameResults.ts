@@ -116,7 +116,26 @@ export const getPreviousPlayers = (
     )
 ;
 
-//
+export const getReverseChronGameData = (results: GameResult[]) => results
+    .sort(
+        (a, b) => Date.parse(b.end) - Date.parse(a.end)
+    )
+    .map(
+        x => ({
+            date: new Date(x.end).toLocaleDateString(),
+            duration: formatGameDuration(
+                Date.parse(x.end) - Date.parse(x.start)
+            ),
+            players: x.players
+                .map(
+                    y => `${y}${y === x.winner ? ' (W)' : ''}`
+                )
+                .join(", ")
+            ,
+        })
+    )
+;
+
 // Helper functions...
 //
 const formatGameDuration = durationFormatter<string>();

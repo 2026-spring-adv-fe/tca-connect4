@@ -7,7 +7,7 @@ import {
 import { APP_TITLE, Home } from './Home';
 import { Setup } from './Setup';
 import { Play } from './Play';
-import { getGeneralFacts, getLeaderboard, getPreviousPlayers, type GameResult } from './GameResults';
+import { getGeneralFacts, getLeaderboard, getPreviousPlayers, getReverseChronGameData, type GameResult } from './GameResults';
 import { useEffect, useRef, useState } from 'react';
 import localforage from 'localforage';
 import {
@@ -250,6 +250,9 @@ const App = () => {
                   }
                   leaderboard={
                     getLeaderboard(gameResults)
+                  }
+                  gameHistory={
+                    getReverseChronGameData(gameResults)
                   }
                 />
               }
